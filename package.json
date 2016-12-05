@@ -1,0 +1,14 @@
+{
+  "name": "abe-algolia",
+  "version": "1.0.0",
+  "description": "This plugin will index algolia with the json data on publish (and deindex on unpublish)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gregory Besson",
+  "license": "ISC",
+  "dependencies": {
+    "algoliasearch": "^3.19.2"
+  }
+}

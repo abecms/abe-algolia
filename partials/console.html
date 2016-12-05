@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script type="text/javascript" src="/libs/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/libs/bootstrap.min.js"></script>
+</head>
+<body>
+  
+  <div class="row col-xs-offset-1 col-xs-10">
+    <ol class="breadcrumb">
+      <li><a href="/abe/">Home</a></li>
+      <li><a href="/abe/plugin/abe-algolia/console" class="active">Algolia admin</a></li>
+    </ol>
+
+    <div class="alert alert-danger hidden" role="alert">
+      
+    </div>
+  
+    <div class="form-group">
+      <button onclick="location.href='?reindex=true'" class="btn btn-default">Index your blog with Algolia</button>
+    </div>
+    {{#if nbIndexed}}
+    <br/>
+    <div>{{nbIndexed}} documents have been indexed in Algolia</div>
+    <br/>
+    {{/if}}
+
+    <br /><br />
+  </div>  
+</body>
+</html>
