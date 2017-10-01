@@ -1,7 +1,7 @@
 # abe-algolia
 Add search feature on your Abe frontend with Algolia
 
-##Introduction
+## Introduction
 This plugin will index all you published content to Algolia so that you can add a search feature to your static frontend !
 
 ## Pre-requisites
