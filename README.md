@@ -33,4 +33,4 @@ It will display the number of indexed posts in Algolia. You'll be able to launch
 
 ### On your client
 
-You'll find a specific recipe on this plugin here: https://github.com/abejs/recipe-algolia
+You'll find a specific recipe on this plugin here: https://github.com/abecms/recipe-algolia
