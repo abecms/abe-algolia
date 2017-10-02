@@ -14,8 +14,13 @@ function alclient (abe) {
     this.indexName = (elt.hasOwnProperty("indexName"))?elt.indexName:this.indexName
   }
 
-  this.client = algoliasearch(applicationID, apiKey);
-  this.index = this.client.initIndex(this.indexName);
+  try {
+    this.client = algoliasearch(applicationID, apiKey);
+    this.index = this.client.initIndex(this.indexName);
+  } catch(e){
+    this.client = null
+    this.index = null
+  }
 }
 
 module.exports = alclient;

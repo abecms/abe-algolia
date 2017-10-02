@@ -1,34 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html data-config='{"URL":"{{abeUrl}}","EXTENSION":"{{@root.config.files.templates.extension}}","TPLPATH":"{{@root.json.abe_meta.template}}","TPLNAME":"{{tplName}}","FILEPATH":"{{@root.json.abe_meta.link}}"}'
+      data-slugs='{{{printJson @root.slugs}}}'
+      data-json='{{{printJson json 1}}}'
+      data-Locales='{{{printJson Locales}}}' >
   <head>
-    <title></title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/styles.css">
-    <script type="text/javascript" src="/libs/jquery-2.1.0.min.js"></script>
-    <script type="text/javascript" src="/libs/bootstrap.min.js"></script>
-</head>
-<body>
-  
-  <div class="row col-xs-offset-1 col-xs-10">
-    <ol class="breadcrumb">
-      <li><a href="/abe/">Home</a></li>
-      <li><a href="/abe/plugin/abe-algolia/console" class="active">Algolia admin</a></li>
-    </ol>
+    <title>Abe</title>
+    {{abeImport 'common-styles' manager.config this}}
+    <style>
+      html,
+      body{
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+      }
+      .label-input{
+        padding: 10px 0;
+      }
+      .input-group{
+        width: 100%;
+      }
+      .form-edit{
+        display: block !important;
+        width: 100% !important;
+        max-width: 400px !important;
+      }
+      .notif{
+        color: #adadad;
+        display: block;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        padding: 30px 20px;
+        background: #f1f1f1;
+        box-shadow: 0px 6px 7px -2px rgba(0,0,0,0.15);
+        transition: all 300ms ease-in-out;
 
-    <div class="alert alert-danger hidden" role="alert">
-      
-    </div>
-  
-    <div class="form-group">
-      <button onclick="location.href='?reindex=true'" class="btn btn-default">Index your blog with Algolia</button>
-    </div>
-    {{#if nbIndexed}}
-    <br/>
-    <div>{{nbIndexed}} documents have been indexed in Algolia</div>
-    <br/>
-    {{/if}}
+        opacity: 0;
+        transform: translate3d(120%, 0, 0);
+      }
+      .notif-close{
+        position: absolute;
+        top: 6px;
+        right: 5px;
+        background: #e4e4e4;
+        font-size: 10px;
+        display: block;
+        height: 17px;
+        width: 17px;
+        text-align: center;
+        border-radius: 10px;
+        line-height: 15px;
+        color: #f1f1f1;
+        text-decoration: none;
+      }
+      .notif.on{
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    </style>
 
-    <br /><br />
-  </div>  
-</body>
+  </head>
+  <body class="with-menu engine-open">
+    {{abeImport 'header-menu' manager.config this}}
+    <div class="container-main">
+      <div class="container-table">
+        <div>
+          <div class="no-gutter manager-wrapper visible">
+            <div class="manager-left form-wrapper">
+              {{abeImport 'main-menu' manager.config this}}
+            </div>
+            <div class="manager-right tab">
+              <div class="manager-tab">
+                <div class="text-uppercase">
+                  Algolia Console
+                </div>
+                <div class="alert alert-danger hidden" role="alert">
+
+                </div>
+                <div class="form-group">
+                  {{#if algolia}}
+                  <button onclick="location.href='?reindex=true'" class="btn btn-default">Index your blog with Algolia</button>
+                  {{else}}
+                    <h2>Algolia is not configured</h2>
+                  {{/if}}
+                </div>
+                {{#if nbIndexed}}
+                <br/>
+                <div>{{nbIndexed}} documents have been indexed in Algolia</div>
+                <br/>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{abeImport 'common-scripts' manager.config this}}
+
+  </body>
 </html>

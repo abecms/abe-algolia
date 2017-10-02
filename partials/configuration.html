@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html data-config='{"URL":"{{abeUrl}}","EXTENSION":"{{@root.config.files.templates.extension}}","TPLPATH":"{{@root.json.abe_meta.template}}","TPLNAME":"{{tplName}}","FILEPATH":"{{@root.json.abe_meta.link}}"}'
+      data-slugs='{{{printJson @root.slugs}}}'
+      data-json='{{{printJson json 1}}}'
+      data-Locales='{{{printJson Locales}}}' >
+  <head>
+    <title>Abe</title>
+    {{abeImport 'common-styles' manager.config this}}
+    <style>
+      html,
+      body{
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+      }
+      .label-input{
+        padding: 10px 0;
+      }
+      .input-group{
+        width: 100%;
+      }
+      .form-edit{
+        display: block !important;
+        width: 100% !important;
+        max-width: 400px !important;
+      }
+      .notif{
+        color: #adadad;
+        display: block;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        padding: 30px 20px;
+        background: #f1f1f1;
+        box-shadow: 0px 6px 7px -2px rgba(0,0,0,0.15);
+        transition: all 300ms ease-in-out;
+
+        opacity: 0;
+        transform: translate3d(120%, 0, 0);
+      }
+      .notif-close{
+        position: absolute;
+        top: 6px;
+        right: 5px;
+        background: #e4e4e4;
+        font-size: 10px;
+        display: block;
+        height: 17px;
+        width: 17px;
+        text-align: center;
+        border-radius: 10px;
+        line-height: 15px;
+        color: #f1f1f1;
+        text-decoration: none;
+      }
+      .notif.on{
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    </style>
+
+  </head>
+  <body class="with-menu engine-open">
+    {{abeImport 'header-menu' manager.config this}}
+    <div class="container-main">
+      <div class="container-table">
+        <div>
+          <div class="no-gutter manager-wrapper visible">
+            <div class="manager-left form-wrapper">
+              {{abeImport 'main-menu' manager.config this}}
+            </div>
+            <div class="manager-right tab">
+              <div class="manager-tab">
+                <div class="text-uppercase">
+                  Algolia configuration
+                </div>
+                <div class="manager-tab-content">
+                  <div class="checkbox">
+                    <label><input type="checkbox" name="algolia_active" id="algolia_active"{{#if (isTrue @root.config.algolia.active '==' 'true')}} checked="checked"{{/if}} value="{{@root.config.algolia.active}}">Active</label>
+                  </div>
+                  <div class="input-group">
+                    <div class="label-input">apiKey</div>
+                    <input type="text" name="algolia_apiKey" id="algolia_apiKey" value="{{@root.config.algolia.apiKey}}" class="form-control form-edit">
+                  </div>
+                  <div class="input-group">
+                    <div class="label-input">applicationID</div>
+                    <input type="text" name="algolia_applicationID" id="algolia_applicationID" value="{{@root.config.algolia.applicationID}}" class="form-control form-edit">
+                  </div>
+                  <div class="input-group">
+                    <div class="label-input">index</div>
+                    <input type="text" name="algolia_index" id="algolia_index" value="{{@root.config.algolia.index}}" class="form-control form-edit">
+                  </div>
+                  <br>
+                  <button class="btn btn-info" id="save" >
+                    <span>
+                      Save
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{abeImport 'common-scripts' manager.config this}}
+
+    <div class="notif" id="notif">
+      <a class="notif-close" id="notif-close" href="#">x</a>
+      Configuration saved successfully !
+    </div>
+
+  <script>
+    var btn = document.getElementById('save');
+    var apiKey = document.getElementById('algolia_apiKey');
+    var active = document.getElementById('algolia_active');
+    var inputElements = document.getElementsByClassName('messageCheckbox');
+    var applicationID = document.getElementById('algolia_applicationID');
+    var algoliaIndex = document.getElementById('algolia_index');
+    var isSaving = false;
+    var saveUrl = 'configuration';
+    var notif = document.getElementById('notif');
+    var notifClose = document.getElementById('notif-close');
+
+    notifClose.addEventListener('click', function (e) {
+      e.preventDefault();
+      notif.classList.remove('on');
+    });
+
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      if(isSaving) return;
+      isSaving = true;
+      btn.classList.add('disabled');
+
+      var request = new XMLHttpRequest();
+      request.open('GET', saveUrl + "?active=" + active.checked + "&apiKey=" + apiKey.value + "&applicationID=" + applicationID.value + "&algoliaIndex=" + algoliaIndex.value);
+      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+      request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200) {
+          setTimeout(function () { btn.classList.remove('disabled'); }, 250);
+          notif.classList.add('on');
+          isSaving = false;
+          setTimeout(function () { notif.classList.remove('on'); }, 2500);
+        }
+      }
+      request.send();
+    });
+  </script>
+  </body>
+</html>

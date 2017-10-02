@@ -7,8 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Gregory Besson",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
+    "babel-preset-es2015": "^6.24.1",
     "algoliasearch": "^3.19.2"
   }
 }
